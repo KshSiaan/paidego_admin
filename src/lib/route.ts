@@ -105,27 +105,27 @@ export const support_route = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/admin",
+      url: "/support-admin",
       icon: LayoutDashboardIcon,
     },
     {
       title: "Event",
-      url: "/admin/event",
+      url: "/support-admin/admin/event",
       icon: IconTargetArrow,
     },
     {
       title: "Users",
-      url: "/admin/users",
+      url: "/support-admin/admin/users",
       icon: IconUser
     },
     {
       title: "Teams",
-      url: "/admin/teams",
+      url: "/support-admin/admin/teams",
       icon: IconUsers,
     },
     {
       title: "Disputes",
-      url: "/admin/disputes",
+      url: "/support-admin/admin/disputes",
       icon: IconHammer,
     },
   ],
