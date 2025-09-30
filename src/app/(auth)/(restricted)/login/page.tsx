@@ -77,6 +77,7 @@ export default function Page() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Submitted data:", values);
+    navig.push("/admin");
     // mutate(values);
   }
 

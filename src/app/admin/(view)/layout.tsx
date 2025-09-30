@@ -2,6 +2,12 @@ import { AppSidebar } from "@/components/app-sidebar";
 
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Paidego - Master Admin",
+  description: "Paidego Master Control panel",
+};
 
 export default function Layout({
   children,

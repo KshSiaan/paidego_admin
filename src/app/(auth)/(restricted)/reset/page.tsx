@@ -60,6 +60,7 @@ export default function Page() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Submitted email:", values);
     // mutate(values);
+    navig.push("/verify-otp");
   }
 
   return (

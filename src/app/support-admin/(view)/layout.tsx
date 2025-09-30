@@ -1,7 +1,12 @@
-import { AppSidebar } from "@/components/app-sidebar";
-
+import { AppSidebar } from "@/components/core/support-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Paidego - Support Admin",
+  description: "Paidego Support Control panel",
+};
 
 export default function Layout({
   children,

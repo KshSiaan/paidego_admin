@@ -74,17 +74,14 @@ export default function Page() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Submitted OTP:", values);
     // mutate(values);
+    router.push("/login");
   }
 
   return (
     <Card className="w-[40dvw] h-auto">
       <CardHeader>
-        <CardTitle className="text-5xl font-bold flex items-center gap-3 w-full justify-center">
-          <span>Verify</span>{" "}
-          <span className="relative text-[#D6DF22]">
-            Identity
-            <div className="w-full absolute -bottom-2 left-0 h-2 bg-gradient-to-r from-[#D6DF20] to-[#FFFFFF]" />
-          </span>
+        <CardTitle className="text-2xl font-bold flex items-center gap-3 w-full justify-center">
+          Verify Identity
         </CardTitle>
         <CardDescription className="text-center text-xl">
           Enter the 6-digit code sent to your email

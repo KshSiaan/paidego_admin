@@ -10,8 +10,8 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
-  title: "Doogoo - Admin",
-  description: "DOGOO Control panel",
+  title: "Paidego - Admin",
+  description: "Paidego Control panel",
 };
 
 export default function RootLayout({
