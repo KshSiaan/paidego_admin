@@ -1,7 +1,9 @@
 import { IconHammer, IconTargetArrow, IconUser, IconUsers } from "@tabler/icons-react";
 import {
+  BanknoteIcon,
   LayoutDashboardIcon,
   StarIcon,
+  StoreIcon,
   Wallet2Icon,
   WalletCardsIcon,
   WalletIcon,
@@ -33,6 +35,16 @@ export const route = {
       title: "Teams",
       url: "/admin/teams",
       icon: IconUsers,
+    },
+    {
+      title: "Branch Management",
+      url: "/admin/branch",
+      icon: StoreIcon,
+    },
+    {
+      title: "Cash Verification",
+      url: "/admin/verification",
+      icon: BanknoteIcon,
     },
     {
       title: "Transitions",
