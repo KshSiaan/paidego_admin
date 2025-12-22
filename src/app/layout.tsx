@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 import { Toaster } from "sonner";
+import GodProvider from "@/provider/god-provider";
 
 const montserrat = Montserrat({
   variable: "--font-geist-sans",
@@ -28,7 +29,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <GodProvider>{children}</GodProvider>
           <Toaster />
         </ThemeProvider>
       </body>

@@ -17,7 +17,7 @@ export default async function RootLayout({
     return redirect("/");
   }
   return (
-    <main className="h-dvh w-dvw flex justify-center items-center ">
+    <main className="h-dvh w-dvw flex justify-center items-center">
       {children}
     </main>
   );

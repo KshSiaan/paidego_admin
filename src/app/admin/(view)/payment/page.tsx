@@ -1,17 +1,34 @@
-"use client";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LockKeyholeIcon, SearchIcon } from "lucide-react";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  BadgeDollarSign,
+  CheckCircle2Icon,
+  EyeIcon,
+  LockKeyholeIcon,
+  SearchIcon,
+} from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { getPaymentApi } from "@/lib/api/admin";
+import { cookies } from "next/headers";
+import { Button } from "@/components/ui/button";
 
-export default function Page() {
+export default async function Page() {
+  const token = (await cookies()).get("token")?.value;
+  const data = await getPaymentApi(token as string);
   return (
     <main className="py-4 flex-1 h-full w-full">
       <Card className="h-full w-full">
         <CardHeader className="w-full grid grid-cols-4 gap-6">
           <Card>
             <CardContent className="flex flex-col justify-center items-center gap-2">
-              <LockKeyholeIcon className="size-10" />
+              <BadgeDollarSign className="size-10" />
               <h4 className="font-semibold">$1740.00</h4>
               <p className="text-sm text-muted-foreground">
                 Total Escrow Balance
@@ -35,22 +52,68 @@ export default function Page() {
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
+                <TableBody>
+                  {data?.data?.payment_players.data.map((x) => (
+                    <TableRow key={x.id}>
+                      <TableCell>{x?.event_name}</TableCell>
+                      <TableCell className="">
+                        {x?.winners
+                          ?.slice(0, 3)
+                          ?.map((w) => w.player.full_name)
+                          ?.join(", ")}
+                      </TableCell>
+                      <TableCell>{x?.amount}</TableCell>
+                      <TableCell>{new Date(x?.date).toDateString()}</TableCell>
+                      <TableCell>
+                        <Button variant={"ghost"} size={"icon"}>
+                          <EyeIcon />
+                        </Button>
+                        <Button variant={"ghost"} size={"icon"}>
+                          <CheckCircle2Icon />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
               </Table>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle>Platform Earnings</CardTitle>
+              <CardTitle>Pending Payouts to Organizer</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Event Name</TableHead>
-                    <TableHead>Total Entries</TableHead>
+                    <TableHead>Winner</TableHead>
                     <TableHead>Commission (10%)</TableHead>
                   </TableRow>
                 </TableHeader>
+                <TableBody>
+                  {data?.data?.payment_organizer.data.map((x) => (
+                    <TableRow key={x.id}>
+                      <TableCell>{x?.event_name}</TableCell>
+                      <TableCell className="">
+                        {x?.winners
+                          ?.slice(0, 3)
+                          ?.map((w: any) => w.player.full_name)
+                          ?.join(", ")}
+                      </TableCell>
+                      <TableCell>{x?.amount}</TableCell>
+                      <TableCell>{new Date(x?.date).toDateString()}</TableCell>
+                      <TableCell>
+                        <Button variant={"ghost"} size={"icon"}>
+                          <EyeIcon />
+                        </Button>
+                        <Button variant={"ghost"} size={"icon"}>
+                          <CheckCircle2Icon />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
               </Table>
             </CardContent>
           </Card>

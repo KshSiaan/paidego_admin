@@ -16,9 +16,15 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { route } from "@/lib/route";
+import { Button } from "./ui/button";
+import { LogOutIcon } from "lucide-react";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 const data = route;
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [{ token }, , removeCookie] = useCookies(["token"]);
+  const navig = useRouter();
   return (
     <Sidebar variant="sidebar" {...props}>
       <SidebarHeader>
@@ -46,7 +52,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <Button
+          variant={"ghost"}
+          onClick={() => {
+            removeCookie("token");
+            navig.push("/login");
+          }}
+        >
+          Log out <LogOutIcon />
+        </Button>
       </SidebarFooter>
     </Sidebar>
   );

@@ -30,6 +30,9 @@ import { toast } from "sonner";
 // import { forgotPassApi } from "@/lib/api/auth";
 // import { idk } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { forgotApi } from "@/lib/api/auth";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -37,18 +40,18 @@ const formSchema = z.object({
 
 export default function Page() {
   const navig = useRouter();
-  // const { mutate } = useMutation({
-  //   mutationKey: ["forgot-password"],
-  //   mutationFn: (dataset: { email: string }) =>
-  //     forgotPassApi({ body: dataset }),
-  //   onError: (err) => {
-  //     toast.error(err.message ?? "Failed to send verification code");
-  //   },
-  //   onSuccess: (res: idk) => {
-  //     toast.success(res.message ?? "Verification code sent!");
-  //     navig.push("/verify-otp");
-  //   },
-  // });
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["forgot-password"],
+    mutationFn: (dataset: { email: string }) => forgotApi({ ...dataset }),
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to send verification code");
+    },
+    onSuccess: (res) => {
+      toast.success(res.message ?? "Verification code sent!");
+      console.log(res);
+      navig.push("/verify-otp");
+    },
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,9 +61,9 @@ export default function Page() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Submitted email:", values);
-    // mutate(values);
-    navig.push("/verify-otp");
+    // console.log("Submitted email:", values);
+    mutate(values);
+    // navig.push("/verify-otp");
   }
 
   return (
@@ -90,10 +93,22 @@ export default function Page() {
               )}
             />
             <CardFooter className="flex-col gap-4 px-0">
-              <Button className="w-full" type="submit">
-                Send Verification Code
+              <Button className="w-full" type="submit" disabled={isPending}>
+                {isPending ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    Sending Verification Link
+                  </>
+                ) : (
+                  "Send Verification Code"
+                )}
               </Button>
-              <Button className="w-fit mx-auto" variant="link" asChild>
+              <Button
+                className="w-fit mx-auto"
+                variant="link"
+                disabled={isPending}
+                asChild
+              >
                 <Link href={"/login"}>Back to Login</Link>
               </Button>
             </CardFooter>

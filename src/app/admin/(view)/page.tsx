@@ -9,12 +9,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { notFound } from "next/navigation";
+import { AdminDashboardApi } from "@/lib/api/admin";
 
 export default async function Page() {
-  // const token = (await cookies()).get("token")?.value;
-  // if (!token) {
-  //   return null;
-  // }
+  const token = (await cookies()).get("token")?.value;
+  if (!token) {
+    return notFound();
+  }
+
+  const data = await AdminDashboardApi(token);
+
   return (
     <div className="@container/main flex flex-1 flex-col gap-6 pb-6">
       <div className="grid grid-cols-4 gap-6 mt-2">
@@ -23,11 +28,36 @@ export default async function Page() {
           .map((_, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: simple
             <Card className="" key={i}>
-              <CardContent className="w-full flex flex-col justify-center items-center">
+              <CardContent className="w-full flex flex-col justify-center items-center gap-2">
                 <PlusSquareIcon className=" bg-foreground text-background rounded-sm" />
-                <h3 className="font-semibold text-sm">Users</h3>
-                <p className="text-lg font-bold">48</p>
-                <p>Available Users</p>
+                <h3 className="font-semibold text-sm">
+                  {i === 0
+                    ? "Users"
+                    : i === 1
+                    ? "Events"
+                    : i === 2
+                    ? "Branches"
+                    : "Earning"}
+                </h3>
+                <p className="text-lg font-bold">
+                  {i === 0
+                    ? data.data.users ?? "N/A"
+                    : i === 1
+                    ? data?.data.events ?? "N/A"
+                    : i === 2
+                    ? data?.data?.branch ?? "N/A"
+                    : data?.data?.earning ?? "N/A"}
+                </p>
+                <p>
+                  Available{" "}
+                  {i === 0
+                    ? "Users"
+                    : i === 1
+                    ? "Events"
+                    : i === 2
+                    ? "Branches"
+                    : "Earning"}
+                </p>
               </CardContent>
             </Card>
           ))}
@@ -47,19 +77,14 @@ export default async function Page() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {/* {Array(6)
-                .fill("")
-                .map((_, i) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: dummy
-                  <TableRow key={i}>
-                    <TableCell className="text-center">29/08/2025</TableCell>
-                    <TableCell className="text-center">Player</TableCell>
-                    <TableCell className="text-center">Join Event</TableCell>
-                    <TableCell className="text-center">
-                      Join ‘Gulshan Padel’ by paying $10
-                    </TableCell>
-                  </TableRow>
-                ))} */}
+              {data?.data.recent_activities.map((x) => (
+                <TableRow key={x.id}>
+                  <TableCell className="text-center">{x.date}</TableCell>
+                  <TableCell className="text-center">{x.user}</TableCell>
+                  <TableCell className="text-center">{x.action}</TableCell>
+                  <TableCell className="text-center">{x.details}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </CardContent>

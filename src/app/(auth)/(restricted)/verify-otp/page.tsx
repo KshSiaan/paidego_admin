@@ -33,6 +33,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 // import { idk } from "@/lib/utils";
 import { useCookies } from "react-cookie";
+import { useMutation } from "@tanstack/react-query";
+import { verifyOtpApi } from "@/lib/api/auth";
 
 const formSchema = z.object({
   otp: z.string().length(6, "OTP must be 6 digits"),
@@ -40,29 +42,29 @@ const formSchema = z.object({
 
 export default function Page() {
   const router = useRouter();
-  // const [, setCookie] = useCookies(["token"]);
-  // const { mutate } = useMutation({
-  //   mutationKey: ["verify-otp"],
-  //   mutationFn: (dataset: { otp: string }) => verifyOtpApi({ body: dataset }),
-  //   onError: (err) => {
-  //     toast.error(err.message ?? "Failed to verify OTP");
-  //   },
-  //   onSuccess: (res: idk) => {
-  //     toast.success(res.message ?? "OTP verified!");
-  //     if (!res.data.token) {
-  //       toast.error("Failed to create Session!", {
-  //         description: "Please try again",
-  //       });
-  //     }
-  //     try {
-  //       setCookie("token", res.data.token);
-  //       router.push("/new-pass");
-  //     } catch (error) {
-  //       console.error(error);
-  //       toast.error("Something went wrong");
-  //     }
-  //   },
-  // });
+  const [, setCookie] = useCookies(["token"]);
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["verify-otp"],
+    mutationFn: (dataset: { otp: string }) => verifyOtpApi({ ...dataset }),
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to verify OTP");
+    },
+    onSuccess: (res) => {
+      toast.success(res.message ?? "OTP verified!");
+      if (!res.data.token) {
+        toast.error("Failed to create Session!", {
+          description: "Please try again",
+        });
+      }
+      try {
+        setCookie("token", res.data.token);
+        router.push("/new-pass");
+      } catch (error) {
+        console.error(error);
+        toast.error("Something went wrong");
+      }
+    },
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -72,9 +74,7 @@ export default function Page() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Submitted OTP:", values);
-    // mutate(values);
-    router.push("/login");
+    mutate(values);
   }
 
   return (
@@ -113,8 +113,8 @@ export default function Page() {
               )}
             />
             <CardFooter className="flex-col gap-4 px-0 w-full">
-              <Button className="w-full" type="submit">
-                Verify Code
+              <Button className="w-full" type="submit" disabled={isPending}>
+                {isPending ? "Checking.." : "Verify Code"}
               </Button>
             </CardFooter>
           </form>

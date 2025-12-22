@@ -29,6 +29,8 @@ import { toast } from "sonner";
 // import { changePasswordApi } from "@/lib/api/auth";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { changePasswordApi } from "@/lib/api/auth";
 // import { idk } from "@/lib/utils";
 
 const formSchema = z
@@ -45,25 +47,28 @@ const formSchema = z
 
 export default function Page() {
   const router = useRouter();
-  // const [{ token }] = useCookies(["token"]);
-  // const { mutate } = useMutation({
-  //   mutationKey: ["change-password"],
-  //   mutationFn: (dataset: {
-  //     password: string;
-  //     password_confirmation: string;
-  //   }) =>
-  //     changePasswordApi({
-  //       body: dataset,
-  //       token,
-  //     }),
-  //   onError: (err) => {
-  //     toast.error(err.message ?? "Failed to reset password");
-  //   },
-  //   onSuccess: (res: idk) => {
-  //     toast.success(res.message ?? "Password successfully changed!");
-  //     router.push("/");
-  //   },
-  // });
+  const [{ token }, , removeCookie] = useCookies(["token"]);
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["change-password"],
+    mutationFn: (dataset: {
+      password: string;
+      password_confirmation: string;
+    }) =>
+      changePasswordApi({
+        ...dataset,
+        token,
+      }),
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to reset password");
+    },
+    onSuccess: (res) => {
+      toast.success(
+        res.message ?? "Password successfully changed! Please Login again"
+      );
+      removeCookie("token");
+      router.push("/login");
+    },
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -74,8 +79,8 @@ export default function Page() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Submitted new password:", values);
-    // mutate(values);
+    // console.log("Submitted new password:", values);
+    mutate(values);
   }
 
   return (
@@ -130,8 +135,8 @@ export default function Page() {
               )}
             />
             <CardFooter className="flex-col gap-4 px-0">
-              <Button className="w-full" type="submit">
-                Reset Password
+              <Button className="w-full" type="submit" disabled={isPending}>
+                {isPending ? "Working on it.." : "Reset Password"}
               </Button>
             </CardFooter>
           </form>

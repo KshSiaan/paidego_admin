@@ -1,6 +1,19 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-export default function Page() {
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { getCashRequestAPi } from "@/lib/api/admin";
+import { CheckCircle2, XCircleIcon } from "lucide-react";
+import { cookies } from "next/headers";
+export default async function Page() {
+  const token = (await cookies()).get("token")?.value;
+  const data = await getCashRequestAPi(token as string);
   return (
     <main className="py-4 flex-1 h-full w-full">
       <Card className="h-full w-full">
@@ -20,6 +33,23 @@ export default function Page() {
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
+            <TableBody>
+              {data?.data?.map((x) => (
+                <TableRow key={x.id}>
+                  <TableCell>{x.player?.full_name}</TableCell>
+                  <TableCell>{x.event.title}</TableCell>
+                  <TableCell>{x.amount}</TableCell>
+                  <TableCell>
+                    <Button variant={"ghost"}>
+                      <CheckCircle2 />
+                    </Button>
+                    <Button variant={"ghost"}>
+                      <XCircleIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
           </Table>
         </CardContent>
       </Card>
