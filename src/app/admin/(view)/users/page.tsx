@@ -9,23 +9,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  BanIcon,
-  CheckIcon,
-  EyeIcon,
-  Loader2Icon,
-  SearchIcon,
-} from "lucide-react";
+import { Loader2Icon, SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getUsersApi } from "@/lib/api/admin";
+
 import { useCookies } from "react-cookie";
 import {
   Status,
   StatusIndicator,
   StatusLabel,
 } from "@/components/kibo-ui/status";
+
+import UserActions from "./user-actions";
+import { getUsersApi } from "@/lib/api/admin";
+import AddUser from "./add-user";
 
 export default function Page() {
   const [{ token }] = useCookies(["token"]);
@@ -50,7 +48,7 @@ export default function Page() {
         <CardHeader>
           <div className="flex flex-row justify-between items-center">
             <CardTitle>User Management</CardTitle>
-            <Button>Add user</Button>
+            {/* <AddUser /> */}
           </div>
           <div className="flex flex-row justify-start items-center gap-2">
             <Button
@@ -120,25 +118,20 @@ export default function Page() {
                     </TableCell>
                     <TableCell>
                       <Status
-                        status={x.status === "Active" ? "online" : "offline"}
+                        status={
+                          x.status === "Active"
+                            ? "online"
+                            : x.status === "Suspended"
+                            ? "offline"
+                            : "maintenance"
+                        }
                       >
                         <StatusIndicator />
                         <StatusLabel>{x.status}</StatusLabel>
                       </Status>
                     </TableCell>
                     <TableCell>
-                      <Button variant={"ghost"} size={"icon"}>
-                        <EyeIcon />
-                      </Button>
-                      {x.status === "Suspended" ? (
-                        <Button variant={"ghost"} size={"icon"}>
-                          <CheckIcon />
-                        </Button>
-                      ) : (
-                        <Button variant={"ghost"} size={"icon"}>
-                          <BanIcon />
-                        </Button>
-                      )}
+                      <UserActions x={x} />
                     </TableCell>
                   </TableRow>
                 ))}

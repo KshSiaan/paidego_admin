@@ -55,3 +55,12 @@ export interface AdminEventsApiType{
     avatar_url: string
   }
 }
+export interface AdminDisputeType{
+  id: number
+  reported_by: number
+  against: number
+  reason: string
+  status: string
+  created_at: string
+  updated_at: string
+}

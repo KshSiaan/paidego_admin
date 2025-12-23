@@ -1,10 +1,21 @@
-"use client";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SearchIcon } from "lucide-react";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { CheckIcon, EyeIcon, SearchIcon, Trash2Icon } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cookies } from "next/headers";
+import { getRefundListApi } from "@/lib/api/admin";
+import { Button } from "@/components/ui/button";
 
-export default function Page() {
+export default async function Page() {
+  const token = (await cookies()).get("token")?.value;
+  const data = await getRefundListApi(token as string);
   return (
     <main className="py-4 flex-1 h-full w-full">
       <Card className="h-full w-full">
@@ -21,11 +32,33 @@ export default function Page() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Event Name</TableHead>
+                    <TableHead>Event Type</TableHead>
                     <TableHead>Participants</TableHead>
                     <TableHead>Total Refund Amount</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
+                <TableBody>
+                  {data?.data.data.map((x) => (
+                    <TableRow key={x.id}>
+                      <TableCell>{x.event_name}</TableCell>
+                      <TableCell>{x.event_type}</TableCell>
+                      <TableCell>{x.participants}</TableCell>
+                      <TableCell>{x.total_refund_amount}</TableCell>
+                      <TableCell>
+                        <Button variant={"ghost"} size={"icon"}>
+                          <EyeIcon />
+                        </Button>
+                        <Button variant={"ghost"} size={"icon"}>
+                          <CheckIcon />
+                        </Button>
+                        <Button variant={"ghost"} size={"icon"}>
+                          <Trash2Icon />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
               </Table>
             </CardContent>
           </Card>

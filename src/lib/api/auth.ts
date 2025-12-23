@@ -1,6 +1,6 @@
 import { ApiResponse } from "@/types/base";
 import { howl } from "../utils";
-import { loginResponse } from "@/types/auth";
+import { loginResponse, UserType } from "@/types/auth";
 
 
 
@@ -15,4 +15,7 @@ export async function verifyOtpApi({otp}:{otp:string}):Promise<ApiResponse<login
 }
 export async function changePasswordApi({password,password_confirmation,token}:{token:string,password:string,password_confirmation:string}):Promise<ApiResponse<any>>{
     return howl(`/change-password`,{method:"POST",body:{password,password_confirmation},token});
+}
+export async function getMeApi(token:string):Promise<ApiResponse<{user:UserType}>>{
+    return howl(`/get-profile`,{token});
 }

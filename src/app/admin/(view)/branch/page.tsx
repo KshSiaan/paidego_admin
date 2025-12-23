@@ -11,6 +11,9 @@ import {
 import { getBranchesApi, getTeamsApi } from "@/lib/api/admin";
 import { EditIcon, XCircleIcon } from "lucide-react";
 import { cookies } from "next/headers";
+import { Suspense } from "react";
+import AddBranch from "./add-branch";
+import BranchActions from "./branch-action";
 
 export default async function Page() {
   const token = (await cookies()).get("token")?.value;
@@ -21,7 +24,11 @@ export default async function Page() {
         <CardHeader>
           <div className="flex flex-row justify-between items-center">
             <CardTitle>Branch Management</CardTitle>
-            <div className=""></div>
+            <div className="">
+              <Suspense>
+                <AddBranch />
+              </Suspense>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -41,12 +48,7 @@ export default async function Page() {
                   <TableCell>{x.country}</TableCell>
                   <TableCell>{x.working_hour}</TableCell>
                   <TableCell>
-                    <Button variant={"ghost"} size={"icon"}>
-                      <EditIcon />
-                    </Button>
-                    <Button variant={"ghost"} size={"icon"}>
-                      <XCircleIcon />
-                    </Button>
+                    <BranchActions x={x} />
                   </TableCell>
                 </TableRow>
               ))}

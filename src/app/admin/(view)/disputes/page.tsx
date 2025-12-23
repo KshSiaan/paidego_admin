@@ -1,10 +1,22 @@
-"use client";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SearchIcon } from "lucide-react";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { EyeIcon, SearchIcon } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cookies } from "next/headers";
+import { getDisputesApi } from "@/lib/api/admin";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-export default function Page() {
+export default async function Page() {
+  const token = (await cookies()).get("token")?.value;
+  const data = await getDisputesApi(token as string);
   return (
     <main className="py-4 flex-1 h-full w-full">
       <Card className="h-full w-full">
@@ -23,6 +35,24 @@ export default function Page() {
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
+            <TableBody>
+              {data?.data?.map((x) => (
+                <TableRow key={x.id}>
+                  <TableCell>{x.id}</TableCell>
+                  <TableCell>{x.reported_by}</TableCell>
+                  <TableCell>{x.against}</TableCell>
+                  <TableCell>{x.reason}</TableCell>
+                  <TableCell>
+                    <Badge variant={"outline"}>{x.status}</Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Button variant={"ghost"} size={"icon"}>
+                      <EyeIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
           </Table>
         </CardContent>
       </Card>

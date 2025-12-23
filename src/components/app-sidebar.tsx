@@ -57,6 +57,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           onClick={() => {
             removeCookie("token");
             navig.push("/login");
+            navig.refresh();
           }}
         >
           Log out <LogOutIcon />

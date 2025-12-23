@@ -11,6 +11,8 @@ import {
 import { getCashRequestAPi } from "@/lib/api/admin";
 import { CheckCircle2, XCircleIcon } from "lucide-react";
 import { cookies } from "next/headers";
+import VerifAction from "./verif-action";
+import { Suspense } from "react";
 export default async function Page() {
   const token = (await cookies()).get("token")?.value;
   const data = await getCashRequestAPi(token as string);
@@ -40,12 +42,9 @@ export default async function Page() {
                   <TableCell>{x.event.title}</TableCell>
                   <TableCell>{x.amount}</TableCell>
                   <TableCell>
-                    <Button variant={"ghost"}>
-                      <CheckCircle2 />
-                    </Button>
-                    <Button variant={"ghost"}>
-                      <XCircleIcon />
-                    </Button>
+                    <Suspense>
+                      <VerifAction x={x} />
+                    </Suspense>
                   </TableCell>
                 </TableRow>
               ))}

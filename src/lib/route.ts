@@ -122,22 +122,22 @@ export const support_route = {
     },
     {
       title: "Event",
-      url: "/support-admin/admin/event",
+      url: "/support-admin/event",
       icon: IconTargetArrow,
     },
     {
       title: "Users",
-      url: "/support-admin/admin/users",
+      url: "/support-admin/users",
       icon: IconUser
     },
     {
       title: "Teams",
-      url: "/support-admin/admin/teams",
+      url: "/support-admin/teams",
       icon: IconUsers,
     },
     {
       title: "Disputes",
-      url: "/support-admin/admin/disputes",
+      url: "/support-admin/disputes",
       icon: IconHammer,
     },
   ],

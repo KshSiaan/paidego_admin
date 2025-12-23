@@ -11,6 +11,7 @@ import {
 import { getTeamsApi } from "@/lib/api/admin";
 import { EyeIcon } from "lucide-react";
 import { cookies } from "next/headers";
+import TeamAction from "./team-action";
 export default async function Page() {
   const token = (await cookies()).get("token")?.value;
   const data = await getTeamsApi(token as string);
@@ -51,9 +52,7 @@ export default async function Page() {
                     </TableCell>
                     <TableCell>{x.members.length}</TableCell>
                     <TableCell>
-                      <Button variant={"ghost"} size={"icon"}>
-                        <EyeIcon />
-                      </Button>
+                      <TeamAction x={x} />
                     </TableCell>
                   </TableRow>
                 ))}

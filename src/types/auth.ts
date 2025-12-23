@@ -255,3 +255,64 @@ export interface PaymentType{
     total: number
   }
 }
+
+
+export interface LeaderboardType {
+  top_player_by_earnings: Array<{
+    id: number
+    full_name: string
+    total_earning: string
+    avatar_url: string
+  }>
+  top_player_by_events_joined: Array<{
+    id: number
+    full_name: string
+    total_event_joined: number
+    avatar_url: string
+  }>
+}
+
+export interface RefundType{
+  current_page: number
+  data: Array<{
+    id: number
+    event_id: number
+    event_name: string
+    event_type: string
+    participants: number
+    total_refund_amount: string
+    status: string
+    created_at: string
+    updated_at: string
+  }>
+  first_page_url: string
+  from: number
+  last_page: number
+  last_page_url: string
+  links: Array<{
+    url?: string
+    label: string
+    page?: number
+    active: boolean
+  }>
+  next_page_url: any
+  path: string
+  per_page: number
+  prev_page_url: any
+  to: number
+  total: number
+}
+
+export interface EventWinner{
+  id: number
+  event_id: number
+  place: string
+  player_id: number
+  team_id: string
+  amount: string
+  additional_prize: string
+  admin_approval: number
+  status: string
+  created_at: string
+  updated_at: string
+}

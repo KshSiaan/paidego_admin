@@ -20,9 +20,9 @@ import { useQuery } from "@tanstack/react-query";
 import { EyeIcon, Loader2Icon, SearchIcon, WalletIcon } from "lucide-react";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
+import EventActions from "./event-actionts";
 
 export default function Page() {
-  const [selectedEvent, setSelectedEvent] = useState<any | undefined>();
   const [{ token }] = useCookies(["token"]);
   const { data, isPending } = useQuery({
     queryKey: ["events"],
@@ -84,14 +84,7 @@ export default function Page() {
                       </Status>
                     </TableCell>
                     <TableCell className="">
-                      {x.status === "Awaiting Confirmation" && (
-                        <Button variant={"ghost"} size={"icon"}>
-                          <WalletIcon />
-                        </Button>
-                      )}
-                      <Button variant={"ghost"} size={"icon"}>
-                        <EyeIcon />
-                      </Button>
+                      <EventActions x={x} />
                     </TableCell>
                   </TableRow>
                 ))}
