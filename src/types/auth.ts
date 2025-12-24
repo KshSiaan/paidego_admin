@@ -113,6 +113,12 @@ export interface CashVerificationType{
       status: string
       created_at: string
       updated_at: string
+      user: {
+        id: number
+        full_name: string,
+        user_name: string,
+        avatar_url: string                    
+      }
     }>
     first_page_url: string
     from: number
@@ -145,6 +151,13 @@ export interface CashVerificationType{
       status: string
       created_at: string
       updated_at: string
+      user: {
+        id: number
+        full_name: string,
+        user_name: string,
+        avatar_url: string                    
+      }
+      event_name?:string
     }>
     first_page_url: string
     from: number

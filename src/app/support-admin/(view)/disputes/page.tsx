@@ -10,10 +10,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cookies } from "next/headers";
-
+import { getDisputesApi } from "@/lib/api/support";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getDisputesApi } from "@/lib/api/support";
+import DisputeAction from "./dispute-action";
 
 export default async function Page() {
   const token = (await cookies()).get("token")?.value;
@@ -47,9 +47,7 @@ export default async function Page() {
                     <Badge variant={"outline"}>{x.status}</Badge>
                   </TableCell>
                   <TableCell>
-                    <Button variant={"ghost"} size={"icon"}>
-                      <EyeIcon />
-                    </Button>
+                    <DisputeAction x={x} />
                   </TableCell>
                 </TableRow>
               ))}

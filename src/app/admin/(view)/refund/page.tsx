@@ -12,6 +12,7 @@ import {
 import { cookies } from "next/headers";
 import { getRefundListApi } from "@/lib/api/admin";
 import { Button } from "@/components/ui/button";
+import RefundActions from "./refund-action";
 
 export default async function Page() {
   const token = (await cookies()).get("token")?.value;
@@ -46,15 +47,7 @@ export default async function Page() {
                       <TableCell>{x.participants}</TableCell>
                       <TableCell>{x.total_refund_amount}</TableCell>
                       <TableCell>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <EyeIcon />
-                        </Button>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <CheckIcon />
-                        </Button>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <Trash2Icon />
-                        </Button>
+                        <RefundActions x={x} />
                       </TableCell>
                     </TableRow>
                   ))}

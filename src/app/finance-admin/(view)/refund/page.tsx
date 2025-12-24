@@ -12,12 +12,12 @@ import {
 import { cookies } from "next/headers";
 
 import { Button } from "@/components/ui/button";
-import { getPlatformEarnings, getRefundListApi } from "@/lib/api/finance";
+import RefundActions from "./refund-action";
+import { getRefundListApi } from "@/lib/api/finance";
 
 export default async function Page() {
   const token = (await cookies()).get("token")?.value;
   const data = await getRefundListApi(token as string);
-  const earningData = await getPlatformEarnings(token as string);
   return (
     <main className="py-4 flex-1 h-full w-full">
       <Card className="h-full w-full">
@@ -48,41 +48,8 @@ export default async function Page() {
                       <TableCell>{x.participants}</TableCell>
                       <TableCell>{x.total_refund_amount}</TableCell>
                       <TableCell>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <EyeIcon />
-                        </Button>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <CheckIcon />
-                        </Button>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <Trash2Icon />
-                        </Button>
+                        <RefundActions x={x} />
                       </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Platform Earnings</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Event Name</TableHead>
-                    <TableHead>Total Entries</TableHead>
-                    <TableHead>Commission (10%)</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {earningData?.data.data.map((x) => (
-                    <TableRow key={x.id}>
-                      <TableCell>{x.event_name}</TableCell>
-                      <TableCell>{x.total_entries}</TableCell>
-                      <TableCell>{x.commission}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

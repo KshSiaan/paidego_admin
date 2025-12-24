@@ -18,6 +18,7 @@ import {
 import { getPaymentApi } from "@/lib/api/admin";
 import { cookies } from "next/headers";
 import { Button } from "@/components/ui/button";
+import WinnersAction from "./winners-action";
 
 export default async function Page() {
   const token = (await cookies()).get("token")?.value;
@@ -65,12 +66,7 @@ export default async function Page() {
                       <TableCell>{x?.amount}</TableCell>
                       <TableCell>{new Date(x?.date).toDateString()}</TableCell>
                       <TableCell>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <EyeIcon />
-                        </Button>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <CheckCircle2Icon />
-                        </Button>
+                        <WinnersAction x={x} />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -88,7 +84,9 @@ export default async function Page() {
                   <TableRow>
                     <TableHead>Event Name</TableHead>
                     <TableHead>Winner</TableHead>
-                    <TableHead>Commission (10%)</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -104,12 +102,7 @@ export default async function Page() {
                       <TableCell>{x?.amount}</TableCell>
                       <TableCell>{new Date(x?.date).toDateString()}</TableCell>
                       <TableCell>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <EyeIcon />
-                        </Button>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <CheckCircle2Icon />
-                        </Button>
+                        <WinnersAction x={x} />
                       </TableCell>
                     </TableRow>
                   ))}

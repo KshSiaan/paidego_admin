@@ -15,14 +15,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getEventsApi } from "@/lib/api/support";
+
 import { useQuery } from "@tanstack/react-query";
 import { EyeIcon, Loader2Icon, SearchIcon, WalletIcon } from "lucide-react";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
+import EventActions from "./event-actionts";
+import { getEventsApi } from "@/lib/api/support";
 
 export default function Page() {
-  const [selectedEvent, setSelectedEvent] = useState<any | undefined>();
   const [{ token }] = useCookies(["token"]);
   const { data, isPending } = useQuery({
     queryKey: ["events"],
@@ -35,6 +36,15 @@ export default function Page() {
       <Card className="h-full w-full">
         <CardHeader>
           <CardTitle>Event Managment</CardTitle>
+          {/* <div className="mt-2">
+            <div className="border flex rounded-sm items-center px-2 shadow-sm">
+              <SearchIcon className="size-4 text-muted-foreground" />
+              <Input
+                placeholder="Search"
+                className="border-0! shadow-none! ring-0! outline-0!"
+              />
+            </div>
+          </div> */}
         </CardHeader>
         <CardContent>
           {isPending ? (
@@ -75,14 +85,7 @@ export default function Page() {
                       </Status>
                     </TableCell>
                     <TableCell className="">
-                      {x.status === "Awaiting Confirmation" && (
-                        <Button variant={"ghost"} size={"icon"}>
-                          <WalletIcon />
-                        </Button>
-                      )}
-                      <Button variant={"ghost"} size={"icon"}>
-                        <EyeIcon />
-                      </Button>
+                      <EventActions x={x} />
                     </TableCell>
                   </TableRow>
                 ))}

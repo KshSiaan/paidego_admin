@@ -19,10 +19,13 @@ import {
 } from "@/components/ui/select";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getTransactionAPi } from "@/lib/api/admin";
 import { Button } from "@/components/ui/button";
+import History from "./history";
+import Withdraw from "./withdraw";
+import { Badge } from "@/components/ui/badge";
 
 export default function Page() {
   const [{ token }] = useCookies(["token"]);
@@ -84,16 +87,11 @@ export default function Page() {
                   <TableBody>
                     {data?.data?.withdraw_histories.data.map((x) => (
                       <TableRow key={x.id}>
-                        <TableCell>{x.user_id}</TableCell>
+                        <TableCell>{x.user?.full_name}</TableCell>
                         <TableCell>{x.amount}</TableCell>
                         <TableCell>{new Date(x.date).toDateString()}</TableCell>
                         <TableCell>
-                          <Button variant={"ghost"} size={"icon"}>
-                            <EyeIcon />
-                          </Button>
-                          <Button variant={"ghost"} size={"icon"}>
-                            <CheckCircle2 />
-                          </Button>
+                          <Withdraw x={x} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -120,13 +118,27 @@ export default function Page() {
                     {data?.data?.transactions_histories.data.map((x) => (
                       <TableRow key={x.id}>
                         <TableCell>#{x.id}</TableCell>
-                        <TableCell>{x.type}</TableCell>
+                        <TableCell>
+                          <Badge
+                            variant={
+                              x.type === "Withdraw"
+                                ? "default"
+                                : x.type === "Refund"
+                                ? "secondary"
+                                : "outline"
+                            }
+                          >
+                            {x.type}
+                          </Badge>
+                        </TableCell>
                         <TableCell>{x.amount}</TableCell>
                         <TableCell>{new Date(x.date).toDateString()}</TableCell>
                         <TableCell>
-                          <Button variant={"ghost"} size={"icon"}>
-                            <EyeIcon />
-                          </Button>
+                          <Suspense
+                            fallback={<Loader2Icon className="animate-spin" />}
+                          >
+                            <History x={x} />
+                          </Suspense>
                         </TableCell>
                       </TableRow>
                     ))}

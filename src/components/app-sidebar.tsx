@@ -49,7 +49,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       {/* <Separator className="w-[90%]! mx-auto" /> */}
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        {/** biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
+        <NavMain items={data.navMain} role="admin" />
       </SidebarContent>
       <SidebarFooter>
         <Button

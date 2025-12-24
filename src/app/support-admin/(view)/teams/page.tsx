@@ -8,10 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getTeamsApi } from "@/lib/api/support";
 
 import { EyeIcon } from "lucide-react";
 import { cookies } from "next/headers";
+import TeamAction from "./team-action";
+import { getTeamsApi } from "@/lib/api/support";
 export default async function Page() {
   const token = (await cookies()).get("token")?.value;
   const data = await getTeamsApi(token as string);
@@ -22,6 +23,15 @@ export default async function Page() {
           <div className="flex flex-row justify-between items-center">
             <CardTitle>Team Requests</CardTitle>
           </div>
+          {/* <div className="mt-2">
+            <div className="border flex rounded-sm items-center px-2 shadow-sm">
+              <SearchIcon className="size-4 text-muted-foreground" />
+              <Input
+                placeholder="Search"
+                className="border-0! shadow-none! ring-0! outline-0!"
+              />
+            </div>
+          </div> */}
         </CardHeader>
         <CardContent>
           {!!data && (
@@ -43,9 +53,7 @@ export default async function Page() {
                     </TableCell>
                     <TableCell>{x.members.length}</TableCell>
                     <TableCell>
-                      <Button variant={"ghost"} size={"icon"}>
-                        <EyeIcon />
-                      </Button>
+                      <TeamAction x={x} />
                     </TableCell>
                   </TableRow>
                 ))}

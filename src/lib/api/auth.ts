@@ -19,3 +19,16 @@ export async function changePasswordApi({password,password_confirmation,token}:{
 export async function getMeApi(token:string):Promise<ApiResponse<{user:UserType}>>{
     return howl(`/get-profile`,{token});
 }
+export async function updateMeApi(token:string,body:FormData):Promise<ApiResponse<{user:UserType}>>{
+    return howl(`/edit-profile`,{token,body,method:"POST"});
+}
+
+export async function updatePass(token:string,body:{
+    current_password: string;
+    password: string;
+    password_confirmation: string;
+}):Promise<ApiResponse<{user:UserType}>>{
+    return howl(`/update-password`,{token,body,method:"POST"});
+}
+
+

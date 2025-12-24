@@ -93,3 +93,27 @@ export async function deleteCashApi(id:string,token:string):Promise<ApiResponse<
     return howl(`/admin/delete-request/${id}`,{token,method:"DELETE"});
 }
 
+export async function AcceptTransApi(id:string,token:string):Promise<ApiResponse<TransactionsApi>>{
+    return howl(`/admin/request-accept/${id}`,{token,method:"PATCH"});
+}
+export async function AcceptPaymentApi(id:string,token:string):Promise<ApiResponse<PaymentType>>{
+    return howl(`/admin/confirm-payment/${id}`,{token,method:"PATCH"});
+}
+export async function ConfirmRefund(id:string,token:string):Promise<ApiResponse<PaymentType>>{
+    return howl(`/admin/confirm-refund/${id}`,{token,method:"PATCH"});
+}
+export async function DenyRefund(id:string,token:string):Promise<ApiResponse<PaymentType>>{
+    return howl(`/admin/cancel-refund/${id}`,{token,method:"DELETE"});
+}
+export async function SolveReport(id:string,token:string):Promise<ApiResponse<PaymentType>>{
+    return howl(`/admin/report-solve/${id}`,{token,method:"PATCH"});
+}
+
+
+export async function AboutUsApi(token:string,body:{title:string,content:string}):Promise<ApiResponse<PaymentType>>{
+    return howl(`/pages/about-us`,{token,method:"POST",body});
+}
+export async function getAboutUsApi(token:string):Promise<ApiResponse<PaymentType>>{
+    return howl(`/pages/about-us`,{token});
+}
+
