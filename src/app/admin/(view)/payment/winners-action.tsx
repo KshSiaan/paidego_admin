@@ -103,40 +103,44 @@ export default function WinnersAction({
           </div>
         </DialogContent>
       </Dialog>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant={"ghost"} size={"icon"}>
-            <CheckCircle2Icon />
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Payout</AlertDialogTitle>
-            <AlertDialogDescription>
-              Release a payout of{" "}
-              <span className="font-semibold text-foreground">${x.amount}</span>{" "}
-              to{" "}
-              <span className="text-foreground font-semibold">
-                {x?.winners
-                  ?.slice(0, 3)
-                  ?.map((w: any) => w.player.full_name)
-                  ?.join(", ")}
-              </span>{" "}
-              for the event "Dhaka Football League"?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                mutate();
-              }}
-            >
-              Approve
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {x.status !== "Completed" && (
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant={"ghost"} size={"icon"}>
+              <CheckCircle2Icon />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Confirm Payout</AlertDialogTitle>
+              <AlertDialogDescription>
+                Release a payout of{" "}
+                <span className="font-semibold text-foreground">
+                  ${x.amount}
+                </span>{" "}
+                to{" "}
+                <span className="text-foreground font-semibold">
+                  {x?.winners
+                    ?.slice(0, 3)
+                    ?.map((w: any) => w.player.full_name)
+                    ?.join(", ")}
+                </span>{" "}
+                for the event "Dhaka Football League"?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  mutate();
+                }}
+              >
+                Approve
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </>
   );
 }

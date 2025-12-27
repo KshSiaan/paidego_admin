@@ -51,6 +51,7 @@ export default async function Page() {
                     <TableHead>Winner</TableHead>
                     <TableHead>Amount</TableHead>
                     <TableHead>Date</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -66,6 +67,7 @@ export default async function Page() {
                       </TableCell>
                       <TableCell>{x?.amount}</TableCell>
                       <TableCell>{new Date(x?.date).toDateString()}</TableCell>
+                      <TableCell>{x?.status}</TableCell>
                       <TableCell>
                         <WinnersAction x={x} />
                       </TableCell>

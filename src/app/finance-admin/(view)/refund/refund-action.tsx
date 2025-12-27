@@ -96,59 +96,63 @@ export default function RefundActions({
           </div>
         </DialogContent>
       </Dialog>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant={"ghost"} size={"icon"}>
-            <CheckIcon />
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Refund</AlertDialogTitle>
-            <AlertDialogDescription>
-              Process a total refund of ${x?.total_refund_amount} for{" "}
-              {x?.participants}
-              participants of "{x.event_name}"?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                confirmRefund();
-              }}
-            >
-              Process Refund
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant={"ghost"} size={"icon"}>
-            <Trash2Icon />
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Denial</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to deny the refund for "{x.event_name}"?
-              This action cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                denyRefund();
-              }}
-            >
-              Deny Refund
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {x.status !== "Completed" && (
+        <>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant={"ghost"} size={"icon"}>
+                <CheckIcon />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Confirm Refund</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Process a total refund of ${x?.total_refund_amount} for{" "}
+                  {x?.participants}
+                  participants of "{x.event_name}"?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => {
+                    confirmRefund();
+                  }}
+                >
+                  Process Refund
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant={"ghost"} size={"icon"}>
+                <Trash2Icon />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Confirm Denial</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to deny the refund for "{x.event_name}"?
+                  This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => {
+                    denyRefund();
+                  }}
+                >
+                  Deny Refund
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </>
+      )}
     </>
   );
 }

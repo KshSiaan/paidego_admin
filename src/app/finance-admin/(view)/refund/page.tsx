@@ -37,6 +37,7 @@ export default async function Page() {
                     <TableHead>Event Type</TableHead>
                     <TableHead>Participants</TableHead>
                     <TableHead>Total Refund Amount</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -47,6 +48,7 @@ export default async function Page() {
                       <TableCell>{x.event_type}</TableCell>
                       <TableCell>{x.participants}</TableCell>
                       <TableCell>{x.total_refund_amount}</TableCell>
+                      <TableCell>{x.status}</TableCell>
                       <TableCell>
                         <RefundActions x={x} />
                       </TableCell>

@@ -73,31 +73,33 @@ export default function Withdraw({
           </div>
         </DialogContent>
       </Dialog>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant={"ghost"} size={"icon"}>
-            <CheckCircle2 />
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Withdrawal</AlertDialogTitle>
-            <AlertDialogDescription>
-              Approve withdrawal of ${x?.amount} for {x?.user?.full_name}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                mutate();
-              }}
-            >
-              Approve
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {x.status !== "Completed" && (
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant={"ghost"} size={"icon"}>
+              <CheckCircle2 />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Confirm Withdrawal</AlertDialogTitle>
+              <AlertDialogDescription>
+                Approve withdrawal of ${x?.amount} for {x?.user?.full_name}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  mutate();
+                }}
+              >
+                Approve
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </>
   );
 }

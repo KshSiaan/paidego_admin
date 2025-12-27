@@ -52,7 +52,7 @@ export const route = {
       icon: WalletIcon,
     },
     {
-      title: "Payments & Escrow",
+      title: "Payments",
       url: "/admin/payment",
       icon: WalletCardsIcon,
     },
@@ -93,7 +93,7 @@ export const finance_route = {
       icon: WalletIcon,
     },
     {
-      title: "Payments & Escrow",
+      title: "Payments",
       url: "/finance-admin/payment",
       icon: WalletCardsIcon,
     },

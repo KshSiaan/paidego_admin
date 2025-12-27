@@ -81,6 +81,7 @@ export default function Page() {
                       <TableHead>User Name</TableHead>
                       <TableHead>Amount</TableHead>
                       <TableHead>Date</TableHead>
+                      <TableHead>Status</TableHead>
                       <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -90,6 +91,7 @@ export default function Page() {
                         <TableCell>{x.user?.full_name}</TableCell>
                         <TableCell>{x.amount}</TableCell>
                         <TableCell>{new Date(x.date).toDateString()}</TableCell>
+                        <TableCell>{x.status}</TableCell>
                         <TableCell>
                           <Withdraw x={x} />
                         </TableCell>
