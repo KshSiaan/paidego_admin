@@ -56,6 +56,7 @@ export default function Page() {
               <TableHeader>
                 <TableRow className="[&_th]:text-center!">
                   <TableHead>Event Name</TableHead>
+                  <TableHead>Event Type</TableHead>
                   <TableHead>Organizer</TableHead>
                   <TableHead>Prize Pool</TableHead>
                   <TableHead>Status</TableHead>
@@ -66,6 +67,7 @@ export default function Page() {
                 {data?.data.map((x) => (
                   <TableRow className="text-center!" key={x.id}>
                     <TableCell>{x.title}</TableCell>
+                    <TableCell>{x.sport_type}</TableCell>
                     <TableCell>{x.organizer.user_name}</TableCell>
                     <TableCell>{x.prize_amount}</TableCell>
                     <TableCell className="flex justify-center items-center">

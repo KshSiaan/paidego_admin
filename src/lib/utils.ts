@@ -10,7 +10,7 @@ interface ApiClientOptions {
   body?: unknown;
   token?: string;
   headers?: Record<string, string>;
-  content?:string
+  content?: string
 }
 
 
@@ -19,7 +19,7 @@ export const base_url = process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:
 
 export async function howl<T>(
   endpoint: string,
-  { method = "GET", body, token,content, headers = {} }: ApiClientOptions = {}
+  { method = "GET", body, token, content, headers = {} }: ApiClientOptions = {}
 ): Promise<T> {
   const res = await fetch(`${base_url}${base_api}${endpoint}`, {
     method,

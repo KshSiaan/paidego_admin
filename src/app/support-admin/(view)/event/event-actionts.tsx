@@ -191,8 +191,13 @@ export default function EventActions({ x }: { x: AdminEventsApiType }) {
           </DialogHeader>
           <div className="space-y-4">
             {[
-              { title: "Event name:", content: x.sport_name },
+              { title: "Event title:", content: x.title },
+              { title: "Sport name:", content: x.sport_name },
               { title: "Organizer:", content: x.organizer.user_name },
+              {
+                title: "Start date:",
+                content: new Date(x.starting_date).toLocaleDateString(),
+              },
               {
                 title: "End date:",
                 content: new Date(x.ending_date).toLocaleDateString(),

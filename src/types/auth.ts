@@ -35,14 +35,29 @@ export interface TeamType{
   name: string
   created_at: string
   updated_at: string
+  player: {
+    id: number
+    full_name: string
+    user_name: string
+    role: string
+    avatar_url: string
+  }
   members: Array<{
     id: number
     team_id: number
     player_id: number
     created_at: string
     updated_at: string
+    player: {
+      id: number
+      full_name: string
+      user_name: string
+      role: string
+      avatar_url: string
+    }
   }>
 }
+
 export interface BranchType{
   id: number
   name: string

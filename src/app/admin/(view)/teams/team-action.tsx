@@ -35,9 +35,10 @@ export default function TeamAction({ x }: { x: TeamType }) {
             <span className="text-muted-foreground">Total Members:</span>
             <span>{x.members.length}</span>
           </div>
-          <div className="text-sm space-y-4">
+          <h4 className="w-full bg-secondary p-2">Members:</h4>
+          <div className="text-sm space-y-4 p-2 pt-0">
             {x.members.map((t) => (
-              <p key={t.id}>{t.player_id}</p>
+              <p key={t.id}>{t.player.full_name}</p>
             ))}
           </div>
         </div>

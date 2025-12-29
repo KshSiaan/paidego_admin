@@ -38,6 +38,7 @@ export default async function Page() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Team Name</TableHead>
+                  <TableHead>Team Owner</TableHead>
                   <TableHead>Created By</TableHead>
                   <TableHead>Members</TableHead>
                   <TableHead>Actions</TableHead>
@@ -47,6 +48,7 @@ export default async function Page() {
                 {data.data.map((x) => (
                   <TableRow key={x.id}>
                     <TableCell>{x.name}</TableCell>
+                    <TableCell>{x.player.full_name}</TableCell>
                     <TableCell>
                       {new Date(x.created_at).toDateString()}
                     </TableCell>
