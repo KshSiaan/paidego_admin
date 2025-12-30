@@ -5,16 +5,36 @@ export interface AdminDashboardApiType{
   events: number
   branch: number
   earning: string
-  recent_activities: Array<{
-    id: number
-    date: string
-    user: string
-    action: string
-    details: string
-    created_at: string
-    updated_at: string
-  }>
+  recent_activities: {
+    current_page: number
+    data: Array<{
+      id: number
+      date: string
+      user: string
+      action: string
+      details: string
+      created_at: string
+      updated_at: string
+    }>
+    first_page_url: string
+    from: number
+    last_page: number
+    last_page_url: string
+    links: Array<{
+      url?: string
+      label: string
+      page?: number
+      active: boolean
+    }>
+    next_page_url: string
+    path: string
+    per_page: number
+    prev_page_url: any
+    to: number
+    total: number
+  }
 }
+
 
 export interface AdminEventsApiType{
   id: number

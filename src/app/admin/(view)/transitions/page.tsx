@@ -109,7 +109,7 @@ export default function Page() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Transaction ID</TableHead>
+                      <TableHead>Username</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Amount</TableHead>
                       <TableHead>Date</TableHead>
@@ -119,7 +119,7 @@ export default function Page() {
                   <TableBody>
                     {data?.data?.transactions_histories.data.map((x) => (
                       <TableRow key={x.id}>
-                        <TableCell>#{x.id}</TableCell>
+                        <TableCell>{x.user?.full_name}</TableCell>
                         <TableCell>
                           <Badge
                             variant={

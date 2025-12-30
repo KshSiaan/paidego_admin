@@ -4,9 +4,17 @@ import { howl } from "../utils";
 import type { ApiResponse } from "@/types/base";
 import type { BranchType, CashVerificationType, EventWinner, LeaderboardType, PaymentType, RefundType, TeamType, TransactionsApi, UserType } from "@/types/auth";
 
-export async function AdminDashboardApi(token:string):Promise<ApiResponse<AdminDashboardApiType>>{
-    return howl(`/admin/dashboard-info`,{token});
+export async function AdminDashboardApi(
+  token: string,
+  page: number = 1,
+  perPage: number = 2
+): Promise<ApiResponse<AdminDashboardApiType>> {
+  return howl(
+    `/admin/dashboard-info?page=${page}&per_page=${perPage}`,
+    { token }
+  );
 }
+
 export async function getEventsApi(token:string):Promise<ApiResponse<AdminEventsApiType[]>>{
     return howl(`/admin/get-events`,{token});
 }

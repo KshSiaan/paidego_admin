@@ -47,6 +47,7 @@ export default async function Page() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Event Name</TableHead>
+                    <TableHead>Event Type</TableHead>
                     <TableHead>Winner</TableHead>
                     <TableHead>Amount</TableHead>
                     <TableHead>Date</TableHead>
@@ -58,6 +59,7 @@ export default async function Page() {
                   {data?.data?.payment_players.data.map((x) => (
                     <TableRow key={x.id}>
                       <TableCell>{x?.event_name}</TableCell>
+                      <TableCell>{x?.event_type}</TableCell>
                       <TableCell className="">
                         {x?.winners
                           ?.slice(0, 3)
@@ -85,7 +87,8 @@ export default async function Page() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Event Name</TableHead>
-                    <TableHead>Winner</TableHead>
+                    <TableHead>Event Type</TableHead>
+                    <TableHead>Organizer</TableHead>
                     <TableHead>Amount</TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead>Status</TableHead>
@@ -96,12 +99,8 @@ export default async function Page() {
                   {data?.data?.payment_organizer.data.map((x) => (
                     <TableRow key={x.id}>
                       <TableCell>{x?.event_name}</TableCell>
-                      <TableCell className="">
-                        {x?.winners
-                          ?.slice(0, 3)
-                          ?.map((w: any) => w.player.full_name)
-                          ?.join(", ")}
-                      </TableCell>
+                      <TableCell>{x?.event_type}</TableCell>
+                      <TableCell className="">{x?.organizer}</TableCell>
                       <TableCell>{x?.amount}</TableCell>
                       <TableCell>{new Date(x?.date).toDateString()}</TableCell>
                       <TableCell>{x?.status}</TableCell>
