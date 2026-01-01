@@ -75,7 +75,7 @@ export default async function Page() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.data.recent_activities.map((x) => (
+              {data?.data.recent_activities?.data?.map((x) => (
                 <TableRow key={x.id}>
                   <TableCell className="text-center">{x.date}</TableCell>
                   <TableCell className="text-center">{x.user}</TableCell>
