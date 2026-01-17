@@ -21,17 +21,18 @@ import { MapPinnedIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import React from "react";
+import React, { useState } from "react";
 import z from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { addBranchApi } from "@/lib/api/admin";
 import { useCookies } from "react-cookie";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import LocationPicker from "@/components/core/location-picker";
+import { idk } from "@/lib/utils";
 
 export const addBranchSchema = z.object({
   name: z.string().min(1, "Branch name is required"),
-  location: z.string().min(1, "Location is required"),
   country: z.string().min(1, "Country is required"),
   working_hour: z.string().min(1, "Working hour is required"),
 });
@@ -39,12 +40,16 @@ export const addBranchSchema = z.object({
 export type AddBranchFormValues = z.infer<typeof addBranchSchema>;
 export default function AddBranch() {
   const navig = useRouter();
+  const [locationData, setLocationData] = useState<{
+    lat: number;
+    lng: number;
+    address?: string;
+  } | null>(null);
   const [{ token }] = useCookies(["token"]);
   const form = useForm<AddBranchFormValues>({
     resolver: zodResolver(addBranchSchema),
     defaultValues: {
       name: "",
-      location: "",
       country: "",
       working_hour: "",
     },
@@ -60,15 +65,20 @@ export default function AddBranch() {
     },
     onSuccess: (res) => {
       toast.success(res.message ?? "Success!");
+      form.reset();
       navig.refresh();
     },
   });
 
   const onSubmit = (values: AddBranchFormValues) => {
+    if (!locationData) {
+      return toast.error("Please select a location for the branch.");
+    }
     const branchFinalizer = {
       ...values,
-      latitude: "10.123",
-      longitude: "10.123",
+      location: locationData?.address,
+      latitude: String(locationData?.lat),
+      longitude: String(locationData?.lng),
     };
     mutate(branchFinalizer);
   };
@@ -83,7 +93,6 @@ export default function AddBranch() {
         <DialogHeader>
           <DialogTitle>Add New Branch</DialogTitle>
         </DialogHeader>
-
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid grid-cols-2 mt-6 gap-4"
@@ -100,12 +109,7 @@ export default function AddBranch() {
 
           <div className="space-y-2 col-span-2">
             <Label>Address</Label>
-            <InputGroup>
-              <InputGroupInput {...form.register("location")} />
-              <InputGroupAddon>
-                <MapPinnedIcon className="h-4 w-4" />
-              </InputGroupAddon>
-            </InputGroup>
+            <LocationPicker onLocationSelect={setLocationData} />
           </div>
 
           <div className="space-y-2 col-span-2">

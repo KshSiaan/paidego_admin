@@ -2,11 +2,6 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Doogoo - Authenticate",
-  description: "DOGOO Login",
-};
-
 export default async function RootLayout({
   children,
 }: Readonly<{
