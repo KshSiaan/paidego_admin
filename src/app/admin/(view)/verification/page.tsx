@@ -38,7 +38,9 @@ export default async function Page() {
             <TableBody>
               {data?.data?.map((x) => (
                 <TableRow key={x.id}>
-                  <TableCell>{x.player?.full_name}</TableCell>
+                  <TableCell>
+                    {x.player?.full_name ?? x.team?.player?.full_name}
+                  </TableCell>
                   <TableCell>{x.event.title}</TableCell>
                   <TableCell>{x.amount}</TableCell>
                   <TableCell>
