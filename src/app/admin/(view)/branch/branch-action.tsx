@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/label";
 import { BranchType } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon, MapPinnedIcon, XCircleIcon } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { type AddBranchFormValues, addBranchSchema } from "./add-branch";
 import { useMutation } from "@tanstack/react-query";
@@ -37,15 +37,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import LocationPicker from "@/components/core/location-picker";
 
 export default function BranchActions({ x }: { x: BranchType }) {
   const [{ token }] = useCookies(["token"]);
   const navig = useRouter();
+  const [locationData, setLocationData] = useState<{
+    lat: number;
+    lng: number;
+    address?: string;
+  } | null>(null);
   const form = useForm<AddBranchFormValues>({
     resolver: zodResolver(addBranchSchema),
     defaultValues: {
       name: x.name,
-      location: x.location,
       country: x.country,
       working_hour: x.working_hour,
     },
@@ -79,11 +84,14 @@ export default function BranchActions({ x }: { x: BranchType }) {
   });
 
   const onSubmit = (values: AddBranchFormValues) => {
+    if (!locationData) {
+      return toast.error("Please select a location for the branch.");
+    }
     const branchFinalizer = {
       ...values,
-      latitude: "10.123",
-      longitude: "10.123",
-      _method: "PATCH",
+      location: locationData?.address,
+      latitude: String(locationData?.lat),
+      longitude: String(locationData?.lng),
     };
     mutate(branchFinalizer);
   };
@@ -118,12 +126,7 @@ export default function BranchActions({ x }: { x: BranchType }) {
 
             <div className="space-y-2 col-span-2">
               <Label>Address</Label>
-              <InputGroup>
-                <InputGroupInput {...form.register("location")} />
-                <InputGroupAddon>
-                  <MapPinnedIcon className="h-4 w-4" />
-                </InputGroupAddon>
-              </InputGroup>
+              <LocationPicker onLocationSelect={setLocationData} />
             </div>
 
             <div className="space-y-2 col-span-2">
