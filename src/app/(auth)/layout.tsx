@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Doogoo - Authenticate",
-  description: "DOGOO Login",
+  title: "Paidego - Authenticate",
+  description: "Paidego Login",
 };
 
 export default function RootLayout({
